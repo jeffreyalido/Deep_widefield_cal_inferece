@@ -4,8 +4,8 @@ close all
 %% this file is used to generate NAOMi1p data
 %  last update: 5/29/2022. YZ
 
-%% add path
-installNAOMi1p
+%% add paths
+run('/projectnb/tianlabdl/jalido/naomi_datagen/Deep_widefield_cal_inferece/NAOMi1p/installNAOMi1p.m')
 
 %% load pre-defined data
 % pre-defined configuration file for RUSH
@@ -13,7 +13,7 @@ installNAOMi1p
 RUSH_ai148d_config
 
 %% RUSH 148d config
-FOV_sz = 1000;% FOV, um
+FOV_sz = 1000;% FOV, um // in image space
 nt = 200;  % frames
 fn = 10; % frame rate
 pavg = 0.5; %mW per mm^2
@@ -46,12 +46,13 @@ output_dir = sprintf('/ad/eng/research/eng_research_cisl/jalido/naomi/cm2v2/%s_r
 %         id = id +1;
 %     else
 %         buf = false;
-%     end 
+%     end
+%     
 % end
 % output_dir = sprintf('%s\\%d', output_dir, id);
 mkdir(output_dir)
 %% generate volume
-tic
+
 [vol_out,vol_params,neur_params,vasc_params,dend_params,bg_params, ...
     axon_params] = simulate_neural_volume(vol_params, neur_params, ...
             vasc_params, dend_params, bg_params, axon_params, psf_params); % Draw a random volume - this takes the longest amound of time
