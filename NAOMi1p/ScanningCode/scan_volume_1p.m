@@ -1,5 +1,5 @@
 function varargout = scan_volume_1p(neur_vol, PSF_struct, neur_act, ...
-                    vol_params, scan_params, noise_params, spike_opts,  wdm_params, vessel_mod, pixel_size, exp_level, output_dir)
+                    vol_params, scan_params, noise_params, spike_opts,  wdm_params, vessel_mod, pixel_size, exp_level, output_dir,view_ind)
 
 % mov = scan_volume(neur_vol, PSF, neur_act, scan_params, varargin)
 %
@@ -43,12 +43,19 @@ function varargout = scan_volume_1p(neur_vol, PSF_struct, neur_act, ...
 %  modified by YZ. last update: 5/29/2021.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Parse inputs
-
-if ~isfield(PSF_struct, 'psf')
-    error('Must provide PSF to scan!')
-else
-    PSF    = PSF_struct.psf;                                               % Extract point spread function from PSF struct
+yo = tiff_reader(sprintf('C:\\Users\\jalido\\Desktop\\research\\psfs\\cm2v2_interpolated_stack-%d.tif',view_ind));
+yo = yo(:,:,1:100);
+for i = 1 : 100
+    yo(:,:,i) = yo(:,:,i) / sum(yo(:,:,i), "all");
 end
+
+PSF = yo;
+
+% if ~isfield(PSF_struct, 'psf')
+%     error('Must provide PSF to scan!')
+% else
+%     PSF    = PSF_struct.psf;                                               % Extract point spread function from PSF struct
+% end
 if ~isfield(PSF_struct, 'mask')
     t_mask = [];                                                           % No masking if mask is not supplied
 else
@@ -355,10 +362,10 @@ bg_act = bsxfun(@minus,bg_act,bg_min);
 f0vol = zeros(N1,N2,N3,'single');
 f0vol_wo_bg = zeros(N1,N2,N3,'single');
 for ll = 1:size(soma_min,1)
-    array_SubSubTest(f0vol,somaVol{ll,1},somaVol{ll,2},soma_min(ll));      % Iteratively add in each neuron's soma activity
+    array_SubSubTest(f0vol,(somaVol{ll,1}),single(somaVol{ll,2}),soma_min(ll));      % Iteratively add in each neuron's soma activity
 end
 for ll = 1:size(soma_min,1)
-    array_SubSubTest(f0vol_wo_bg,somaVol{ll,1},somaVol{ll,2},soma_min(ll));      % Iteratively add in each neuron's soma activity
+    array_SubSubTest(f0vol_wo_bg,(somaVol{ll,1}),single(somaVol{ll,2}),soma_min(ll));      % Iteratively add in each neuron's soma activity
 end
 
 for ll = 1:size(neur_vol.gp_nuc,1)
@@ -371,7 +378,7 @@ for ll = 1:size(neur_vol.gp_nuc,1)
     end
 end
 for ll = 1:size(dend_min,1)                                                % For large volumes, mex functions decrease runtimes a lot
-    array_SubSubTest(f0vol,dendVol{ll,1},dendVol{ll,2},dend_min(ll));      % Iteratively add in each neuron's soma activity
+    array_SubSubTest(f0vol,dendVol{ll,1},single(dendVol{ll,2}),dend_min(ll));      % Iteratively add in each neuron's soma activity
 end
 for ll = 1:size(bg_min,1)
     if(~isempty(axonVol{ll,1}))
@@ -440,20 +447,20 @@ if ~isstruct(PSF)
             y_loc = min(max(1,y_loc+randsample(d_stps2,1)), 2*scan_buff+1);% Update random jump for y-axis (fast) scan start
         end
         %% initilaize motions
-        x_pos = min(max(1,x_loc+randsample(d_stps, 1)), 2*scan_buff+1);    % Update random drift for x-axis (slow) scan start
-        y_pos = min(max(1,y_loc+randsample(d_stps, 1)), 2*scan_buff+1);    % Update random drift for y-axis (fast) scan start
-        z_loc = min(max(z_base-zmaxdiff,z_loc+...
-                       randsample(d_stpsZ, 1)), z_base+zmaxdiff);          % Update random drift for depth scan start
-        z_loc = min(max(1,z_loc+randsample(d_stps, 1)), N3-Np3+1);         % Update random drift for depth scan start
-        if nargout > 2
-            mot_hist(:,kk) = [x_pos;y_pos;z_loc];                          % If needed store the current scan location to the output array
-        end
-        y_shr = [zeros(randsample(floor(2*N1/5),1),1); ...
-                linspace(0,1,round(rand*3*N1/5))'*(2*(rand-0.5))*maxshear*N1];    % Create shearing vector
-        y_shr = cat(1,y_shr, y_shr(end)*ones(max(0,N1-numel(y_shr)),1));   % Make sure vector is the full size (N1)
-        y_off = vec(min(max(1,y_pos+y_shr + ...
-                        randsample(d_stps, N1, true)'),2*scan_buff+1));    % Randomly select offset for each row (+/-0.5um), in addition to the shearing vector
-        clear TMPvol; 
+%         x_pos = min(max(1,x_loc+randsample(d_stps, 1)), 2*scan_buff+1);    % Update random drift for x-axis (slow) scan start
+%         y_pos = min(max(1,y_loc+randsample(d_stps, 1)), 2*scan_buff+1);    % Update random drift for y-axis (fast) scan start
+%         z_loc = min(max(z_base-zmaxdiff,z_loc+...
+%                        randsample(d_stpsZ, 1)), z_base+zmaxdiff);          % Update random drift for depth scan start
+%         z_loc = min(max(1,z_loc+randsample(d_stps, 1)), N3-Np3+1);         % Update random drift for depth scan start
+%         if nargout > 2
+%             mot_hist(:,kk) = [x_pos;y_pos;z_loc];                          % If needed store the current scan location to the output array
+%         end
+%         y_shr = [zeros(randsample(floor(2*N1/5),1),1); ...
+%                 linspace(0,1,round(rand*3*N1/5))'*(2*(rand-0.5))*maxshear*N1];    % Create shearing vector
+%         y_shr = cat(1,y_shr, y_shr(end)*ones(max(0,N1-numel(y_shr)),1));   % Make sure vector is the full size (N1)
+%         y_off = vec(min(max(1,y_pos+y_shr + ...
+%                         randsample(d_stps, N1, true)'),2*scan_buff+1));    % Randomly select offset for each row (+/-0.5um), in addition to the shearing vector
+%         clear TMPvol; 
         
         %% vessel volume
         if vessel_mod.flag
@@ -478,24 +485,24 @@ if ~isstruct(PSF)
         
         
         % nuc
-        if(isfield(scan_params,'nuc_label'))&&(scan_params.nuc_label>=1)
-            for ll = 1:size(neur_vol.gp_nuc,1)
-                if(nuc_act(ll,kk)>0)&&(~isempty(nucVol{ll,2}))
-                    array_SubSubTest(WMPvol_w_bg,nucVol{ll,1},...
-                                        nucVol{ll,2},nuc_act(ll,kk));    % Iteratively add in each neuron's soma activity
-                    array_SubSubTest(WMPvol_w_bg_pure,nucVol{ll,1},...
-                                        nucVol{ll,2},nuc_act(ll,kk));    % Iteratively add in each neuron's soma activity                
-                end            
-            end
-        end
+%         if(isfield(scan_params,'nuc_label'))&&(scan_params.nuc_label>=1)
+%             for ll = 1:size(neur_vol.gp_nuc,1)
+%                 if(nuc_act(ll,kk)>0)&&(~isempty(nucVol{ll,2}))
+%                     array_SubSubTest(WMPvol_w_bg,nucVol{ll,1},...
+%                                         nucVol{ll,2},nuc_act(ll,kk));    % Iteratively add in each neuron's soma activity
+%                     array_SubSubTest(WMPvol_w_bg_pure,nucVol{ll,1},...
+%                                         nucVol{ll,2},nuc_act(ll,kk));    % Iteratively add in each neuron's soma activity                
+%                 end            
+%             end
+%         end
         
 %         % dend
         for ll = 1:size(dend_act,1)                                        % For large volumes, mex functions decrease runtimes a lot
             if (dend_act(ll,kk)>0)&&(~isempty(dendVol{ll,1}))
                 array_SubSubTest(WMPvol_w_bg,dendVol{ll,1},...
-                                           dendVol{ll,2},dend_act(ll,kk)); % Iteratively add in each neuron's soma activity
+                                           single(dendVol{ll,2}),dend_act(ll,kk)); % Iteratively add in each neuron's soma activity
                 array_SubSubTest(WMPvol_w_bg_pure,dendVol{ll,1},...
-                                           dendVol{ll,2},dend_act(ll,kk)); % Iteratively add in each neuron's soma activity
+                                           single(dendVol{ll,2}),dend_act(ll,kk)); % Iteratively add in each neuron's soma activity
             end
         end
         
@@ -503,9 +510,9 @@ if ~isstruct(PSF)
         for ll = 1:size(bg_act,1)
             if(~isempty(axonVol{ll,1}) && bg_act(ll,kk)>0)
                 array_SubModTest(WMPvol_w_bg_pure, axonVol{ll,1}, ...
-                                           axonVol{ll,2},bg_act(ll,kk )); % Iteratively add in each background component's activity
+                                           single(axonVol{ll,2}),bg_act(ll,kk )); % Iteratively add in each background component's activity
                 array_SubSubTest(WMPvol_w_bg_pure,dendVol{ll,1},...
-                                           dendVol{ll,2},dend_act(ll,kk)); % Iteratively add in each neuron's soma activity
+                                           single(dendVol{ll,2}),dend_act(ll,kk)); % Iteratively add in each neuron's soma activity
             end
         end
         
@@ -530,10 +537,10 @@ if ~isstruct(PSF)
                 top_mask = ones(size(clean_img_w_bg,1),size(clean_img_w_bg,2),'single');
                 bot_mask = ones(size(clean_img_w_bg,1),size(clean_img_w_bg,2),'single');            
             end
-            if(isfield(psfT,'mask'))
-                top_mask = top_mask.*psfT.mask;
-                bot_mask = bot_mask.*psfB.mask;
-            end
+%             if(isfield(psfT,'mask'))
+%                 top_mask = top_mask.*psfT.mask;
+%                 bot_mask = bot_mask.*psfB.mask;
+%             end
             % top image
             if(isempty(1:z_loc-1))
                 % so the top img is still based on the whole volume
@@ -577,23 +584,23 @@ if ~isstruct(PSF)
         mov_w_bg(:,:,kk) = samp_img;  
         
         % debug mode
-        saveastiff(im2uint16(samp_img / 65535), sprintf('%s\\debug\\%d.tiff', output_dir, kk - start_Nt))
-        saveastiff(im2uint16(clean_img_wo_bg / 65535), sprintf('%s\\debug_gt\\%d.tiff', output_dir, kk - start_Nt))
+%         saveastiff(im2uint16(samp_img / 65535), sprintf('%s\\debug\\%d.tiff', output_dir, kk - start_Nt))
+%         saveastiff(im2uint16(clean_img_wo_bg / 65535), sprintf('%s\\debug_gt\\%d.tiff', output_dir, kk - start_Nt))
         %% saving tiff, optional for large files
-        if (~isempty(scan_params.fsimPath))
-            tifLinkFsim = tifappend(tifLinkFsim,samp_img,tagFsim, ...
-              scan_params.saveBlocksize,kk,scan_params.fsimPath);
-        end
-        if (~isempty(scan_params.fsimCleanPath))
-            tifLinkFsimClean = tifappend(tifLinkFsimClean,clean_img_w_bg, ...
-              tagFsimClean,scan_params.saveBlocksize,kk,scan_params.fsimCleanPath);
-        end        
-        if scan_params.verbose == 1
-            fprintf('.');
-        elseif scan_params.verbose >1
-            Ttmp = toc;
-            fprintf('Scanned frame %d (%f s)\n',kk - start_Nt,Ttmp)
-        end
+%         if (~isempty(scan_params.fsimPath))
+%             tifLinkFsim = tifappend(tifLinkFsim,samp_img,tagFsim, ...
+%               scan_params.saveBlocksize,kk,scan_params.fsimPath);
+%         end
+%         if (~isempty(scan_params.fsimCleanPath))
+%             tifLinkFsimClean = tifappend(tifLinkFsimClean,clean_img_w_bg, ...
+%               tagFsimClean,scan_params.saveBlocksize,kk,scan_params.fsimCleanPath);
+%         end        
+%         if scan_params.verbose == 1
+%             fprintf('.');
+%         elseif scan_params.verbose >1
+%             Ttmp = toc;
+%             fprintf('Scanned frame %d (%f s)\n',kk - start_Nt,Ttmp)
+%         end
     end
 elseif isfield(PSF,'left')                                                 % Check if separate beam v_twins configuration is being used
     error('Supported PSF configuration!')    
@@ -616,8 +623,8 @@ end
 % save
 mov_w_bg = mov_w_bg(:, :, start_Nt + 1 : end);
 mov_wo_bg = mov_wo_bg(:, :, start_Nt + 1: end);
-saveastiff(im2uint16(mov_w_bg / max(mov_w_bg(:))), sprintf('%s\\mov_w_bg.tiff', output_dir))
-saveastiff(im2uint16(mov_wo_bg / max(mov_wo_bg(:))), sprintf('%s\\mov_wo_bg.tiff', output_dir))
+saveastiff(im2uint8(mov_w_bg / max(mov_w_bg(:))), sprintf('%s\\mov_w_bg%d_view.tiff', output_dir,view_ind))
+saveastiff(im2uint8(mov_wo_bg / max(mov_wo_bg(:))), sprintf('%s\\mov_wo_bg%_view.tiff', output_dir,view_ind))
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 %% Output parsing
 

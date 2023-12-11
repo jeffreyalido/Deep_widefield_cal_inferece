@@ -9,11 +9,12 @@ installNAOMi1p
 
 %% load pre-defined data
 % pre-defined configuration file for RUSH
+% cm2v2_config
 RUSH_ai148d_config
 
 %% RUSH 148d config
-FOV_sz = 600;% FOV, um
-nt = 1000;  % frames
+FOV_sz = 1000;% FOV, um
+nt = 200;  % frames
 fn = 10; % frame rate
 pavg = 0.5; %mW per mm^2
 
@@ -33,7 +34,7 @@ vessel_mod.FOV_N = 2; % crop the whole FOV into patches for individual modulatio
 vessel_mod.max_dilate_amp = 10; % dilate amplitude
 vessel_mod.seed = 10; 
 %% output path
-output_dir = sprintf('Z:\\YZ_personal_storage\\deep_widefield_calcium_inference\\data2\\%s\\res_%.2f\\vol_%d_%d_NA_%.2f_Hz_%d_exp_%d_d_%dk_pw_%.2f', ...
+output_dir = sprintf('H:\\jeffrey\\data\\naomi\\%s\\res_%.2f\\vol_%d_%d_NA_%.2f_Hz_%d_exp_%d_d_%dk_pw_%.2f', ...
                                             mode, pixel_size, vol_params.vol_sz(1), vol_params.vol_sz(3), ...
                                             psf_params.objNA,frate, exp_level,vol_params.neur_density / 1e3, ...
                                             wdm_params.pavg);
@@ -69,7 +70,7 @@ neur_ves = vol_out.neur_ves_all;
 saveastiff(im2uint16(neur_ves / max(neur_ves(:))), sprintf('%s\\neur_ves_all.tiff', output_dir));
 %% generate PSFs
 tic
-PSF_struct = simulate_1p_optical_propagation(vol_params,psf_params,vol_out);  % Create the point-spread function and mask for scanning
+PSF_struct.psf = psf_params.psf; % Create the point-spread function and mask for scanning
 fprintf('Simulated optical propagation in %f seconds.\n', toc); 
 save(sprintf('%s\\PSF_struct.mat', output_dir), 'PSF_struct')
 %% save necessary PSF files
@@ -80,7 +81,7 @@ saveastiff(im2uint16(PSF_struct.psfB.mask / max(PSF_struct.psfB.mask, [], 'all')
 saveastiff(im2uint16(PSF_struct.psfT.mask/ max(PSF_struct.psfT.mask, [], 'all')), sprintf('%s\\psfT_colmask.tiff', output_dir))
 
 %% generate neurons
-tic                                    
+tic
 % [neur_act,spikes] = generateTimeTraces(spike_opts,[],vol_out.locs);        % Generate time traces using AR-2 process
 fun_time_trace_generation(vol_out, nt, fn, output_dir)
 spike_opts = importdata(sprintf('%s\\firing_rate_%g_smod_flag_other\\spikes_opts.mat', output_dir, spike_opts.rate));
@@ -96,11 +97,13 @@ figure('position', [100, 100, 400, 800]), imagesc(neur_act.dend(:, : )), title('
 saveas(gcf, sprintf('%s\\dend_heat.jpg', output_dir)), close
 
 %% peform imaging    
-tic  
 % vol_out = importdata(sprintf('%s\\vol_out.mat', output_dir));
-% PSF_struct = importdata(sprintf('%s\\PSF_struct.mat',output_dir));     
-scan_volume_1p(vol_out, PSF_struct, neur_act, ...
-                       vol_params, scan_params, noise_params, spike_opts, wdm_params, vessel_mod, pixel_size, exp_level, output_dir); % Perform the scanning simulation
+% PSF_struct = importdata(sprintf('%s\\PSF_struct.mat',output_dir));  
+tic
+parfor ii = 1 : 9
+	scan_volume_1p(vol_out, PSF_struct, neur_act, ...
+                       vol_params, scan_params, noise_params, spike_opts, wdm_params, vessel_mod, pixel_size, exp_level, output_dir,ii); % Perform the scanning simulation
+end
 fprintf('Simulated recordings in %f seconds.\n', toc); 
 
 

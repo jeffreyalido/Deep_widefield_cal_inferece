@@ -2,8 +2,8 @@
 
 vol_params.vol_sz    = [600,600,150];   % Volume size to sample (in microns)
 vol_params.vol_depth = 50;  % Set the depth of imaging (depth at the middle of the simulated volume)
-vol_params.neur_density = 3e4;
-pixel_size = 0.8;           % pixel size of your system 
+vol_params.neur_density = 1e4;
+pixel_size = 2.4;           % pixel size of your system 
 vol_params.vres         = 1; % pixel size in tissue simulations
 neur_params.avg_rad     = 1*5.9;  % for slightly larger neuron
 
@@ -30,7 +30,15 @@ else
 end
 % z_range = min(vol_params.vol_sz(3), 150); % we maximize the size of 1P for better background simulations
 % x_range = round(z_range / 4) - mod(round(z_range / 4), 4);
-psf_params.psf_sz = [36, 36, 100];
+psf_params.psf_sz = [84, 84, 100];
+yo = tiff_reader('C:\\Users\\jalido\\Desktop\\research\\psfs\\cm2v2_interpolated_stack-1.tif');
+yo = yo(:,:,1:100);
+for i = 1 : 100
+    yo(:,:,i) = yo(:,:,i) / sum(yo(:,:,i), "all");
+end
+
+psf_params.psf = yo;
+clear yo
 
 
 %% widefield system parameters
