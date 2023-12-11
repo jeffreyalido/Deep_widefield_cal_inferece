@@ -34,21 +34,21 @@ vessel_mod.FOV_N = 2; % crop the whole FOV into patches for individual modulatio
 vessel_mod.max_dilate_amp = 10; % dilate amplitude
 vessel_mod.seed = 10; 
 %% output path
-output_dir = sprintf('H:\\jeffrey\\data\\naomi\\%s\\res_%.2f\\vol_%d_%d_NA_%.2f_Hz_%d_exp_%d_d_%dk_pw_%.2f', ...
+output_dir = sprintf('/ad/eng/research/eng_research_cisl/jalido/naomi/cm2v2/%s_res_%.2f_vol_%d_%d_NA_%.2f_Hz_%d_exp_%d_d_%dk_pw_%.2f', ...
                                             mode, pixel_size, vol_params.vol_sz(1), vol_params.vol_sz(3), ...
                                             psf_params.objNA,frate, exp_level,vol_params.neur_density / 1e3, ...
                                             wdm_params.pavg);
-% make sub folders
-buf = true;
-id = 1;
-while buf
-    if exist(sprintf('%s\\%d', output_dir, id), 'dir') == 7
-        id = id +1;
-    else
-        buf = false;
-    end 
-end
-output_dir = sprintf('%s\\%d', output_dir, id);
+% % make sub folders
+% buf = true;
+% id = 1;
+% while buf
+%     if exist(sprintf('%s\\%d', output_dir, id), 'dir') == 7
+%         id = id +1;
+%     else
+%         buf = false;
+%     end 
+% end
+% output_dir = sprintf('%s\\%d', output_dir, id);
 mkdir(output_dir)
 %% generate volume
 tic

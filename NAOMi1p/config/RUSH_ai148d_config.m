@@ -2,7 +2,7 @@
 
 vol_params.vol_sz    = [600,600,150];   % Volume size to sample (in microns)
 vol_params.vol_depth = 50;  % Set the depth of imaging (depth at the middle of the simulated volume)
-vol_params.neur_density = 1e4;
+vol_params.neur_density = randi(2000)+1000;
 pixel_size = 2.4;           % pixel size of your system 
 vol_params.vres         = 1; % pixel size in tissue simulations
 neur_params.avg_rad     = 1*5.9;  % for slightly larger neuron
