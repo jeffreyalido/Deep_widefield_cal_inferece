@@ -37,7 +37,7 @@ vessel_mod.seed = 10;
 output_dir = sprintf('/ad/eng/research/eng_research_cisl/jalido/naomi/cm2v2/%s_res_%.2f_vol_%d_%d_NA_%.2f_Hz_%d_exp_%d_d_%dk_pw_%.2f', ...
                                             mode, pixel_size, vol_params.vol_sz(1), vol_params.vol_sz(3), ...
                                             psf_params.objNA,frate, exp_level,vol_params.neur_density / 1e3, ...
-                                            wdm_params.pavg);
+                                            wdm_params.pavg)
 % % make sub folders
 % buf = true;
 % id = 1;
@@ -75,11 +75,11 @@ PSF_struct.psf = psf_params.psf; % Create the point-spread function and mask for
 fprintf('Simulated optical propagation in %f seconds.\n', toc); 
 save(sprintf('%s\\PSF_struct.mat', output_dir), 'PSF_struct')
 %% save necessary PSF files
-saveastiff(im2uint16(PSF_struct.psf / max(PSF_struct.psf, [], 'all')), sprintf('%s\\psf.tiff', output_dir))
-saveastiff(im2uint16(PSF_struct.mask / max(PSF_struct.mask, [], 'all')), sprintf('%s\\psf_mask.tiff', output_dir))
-saveastiff(im2uint16(PSF_struct.colmask / max(PSF_struct.colmask, [], 'all')), sprintf('%s\\psf_colmask.tiff', output_dir))
-saveastiff(im2uint16(PSF_struct.psfB.mask / max(PSF_struct.psfB.mask, [], 'all')), sprintf('%s\\psfB_mask.tiff', output_dir))
-saveastiff(im2uint16(PSF_struct.psfT.mask/ max(PSF_struct.psfT.mask, [], 'all')), sprintf('%s\\psfT_colmask.tiff', output_dir))
+% saveastiff(im2uint16(PSF_struct.psf / max(PSF_struct.psf, [], 'all')), sprintf('%s\\psf.tiff', output_dir))
+% saveastiff(im2uint16(PSF_struct.mask / max(PSF_struct.mask, [], 'all')), sprintf('%s\\psf_mask.tiff', output_dir))
+% saveastiff(im2uint16(PSF_struct.colmask / max(PSF_struct.colmask, [], 'all')), sprintf('%s\\psf_colmask.tiff', output_dir))
+% saveastiff(im2uint16(PSF_struct.psfB.mask / max(PSF_struct.psfB.mask, [], 'all')), sprintf('%s\\psfB_mask.tiff', output_dir))
+% saveastiff(im2uint16(PSF_struct.psfT.mask/ max(PSF_struct.psfT.mask, [], 'all')), sprintf('%s\\psfT_colmask.tiff', output_dir))
 
 %% generate neurons
 tic
@@ -89,13 +89,13 @@ spike_opts = importdata(sprintf('%s\\firing_rate_%g_smod_flag_other\\spikes_opts
 neur_act = importdata(sprintf('%s\\firing_rate_%g_smod_flag_other\\S.mat', output_dir, spike_opts.rate));
 
 fprintf('Simulated temporal activity in %f seconds.\n', toc); 
-%% plot traces
-figure('position', [100, 100, 400, 800]), imagesc(neur_act.soma(:, : )),  title('soma'), colormap(othercolor('BuGn7'))
-saveas(gcf, sprintf('%s\\soma_heat.jpg', output_dir)), close
-figure('position', [100, 100, 400, 800]), imagesc(neur_act.bg(:, : )),  title('bg'), colormap(othercolor('BuGn7'))
-saveas(gcf, sprintf('%s\\bg_heat.jpg', output_dir)), close
-figure('position', [100, 100, 400, 800]), imagesc(neur_act.dend(:, : )), title('dendrites'), colormap(othercolor('BuGn7'))
-saveas(gcf, sprintf('%s\\dend_heat.jpg', output_dir)), close
+% %% plot traces
+% figure('position', [100, 100, 400, 800]), imagesc(neur_act.soma(:, : )),  title('soma'), colormap(othercolor('BuGn7'))
+% saveas(gcf, sprintf('%s\\soma_heat.jpg', output_dir)), close
+% figure('position', [100, 100, 400, 800]), imagesc(neur_act.bg(:, : )),  title('bg'), colormap(othercolor('BuGn7'))
+% saveas(gcf, sprintf('%s\\bg_heat.jpg', output_dir)), close
+% figure('position', [100, 100, 400, 800]), imagesc(neur_act.dend(:, : )), title('dendrites'), colormap(othercolor('BuGn7'))
+% saveas(gcf, sprintf('%s\\dend_heat.jpg', output_dir)), close
 
 %% peform imaging    
 % vol_out = importdata(sprintf('%s\\vol_out.mat', output_dir));

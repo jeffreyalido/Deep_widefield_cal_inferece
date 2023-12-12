@@ -335,13 +335,13 @@ end
 % disable apical dendrites
 dend_act(vol_params.N_neur + 1 : vol_params.N_neur + vol_params.N_den, :) = 0;
 % statistics
-max(soma_act(:))
-max(bg_act(:))
-max(dend_act(:))
+% max(soma_act(:))
+% max(bg_act(:))
+% max(dend_act(:))
 
-max(std(soma_act, 0, 2))
-max(std(dend_act, 0, 2))
-max(std(bg_act, 0, 2))
+% max(std(soma_act, 0, 2))
+% max(std(dend_act, 0, 2))
+% max(std(bg_act, 0, 2))
 
 %%
 
@@ -616,15 +616,17 @@ if (~isempty(scan_params.fsimCleanPath))
 end
 
 
-if scan_params.verbose >= 1
-    fprintf('done.\n')
-end
+
 
 % save
 mov_w_bg = mov_w_bg(:, :, start_Nt + 1 : end);
 mov_wo_bg = mov_wo_bg(:, :, start_Nt + 1: end);
-saveastiff(im2uint8(mov_w_bg / max(mov_w_bg(:))), sprintf('%s/mov_w_bg%d_view.tiff', output_dir,view_ind))
-saveastiff(im2uint8(mov_wo_bg / max(mov_wo_bg(:))), sprintf('%s/mov_wo_bg%d_view.tiff', output_dir,view_ind))
+saveastiff2(im2uint8(mov_w_bg / max(mov_w_bg(:))), sprintf('%s/mov_w_bg%d_view.tiff', output_dir,view_ind))
+saveastiff2(im2uint8(mov_wo_bg / max(mov_wo_bg(:))), sprintf('%s/mov_wo_bg%d_view.tiff', output_dir,view_ind))
+
+if scan_params.verbose >= 1
+    fprintf('done.\n')
+end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 %% Output parsing
 

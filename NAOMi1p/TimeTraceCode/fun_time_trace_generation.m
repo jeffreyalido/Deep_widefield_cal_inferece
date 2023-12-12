@@ -448,9 +448,9 @@ save(sprintf('%s\\S.mat', outdir), 'S')     % return the fluorescence traces
 save(sprintf('%s\\spikes.mat', outdir), 'spikes')  % ... and the spiking activity
 save(sprintf('%s\\spikes_opts.mat', outdir), 'spike_opts')                                          
 
-figure, imagesc(S.soma(:, : )), saveas(gca, sprintf('%s\\figure of soma', outdir)), title('soma')
-figure, imagesc(S.bg(:, : )), saveas(gca, sprintf('%s\\figure of bg', outdir)), title('bg')
-figure, imagesc(S.dend(:, : )), saveas(gca, sprintf('%s\\figure of dend', outdir)), title('dendrites')
+% figure, imagesc(S.soma(:, : )), saveas(gca, sprintf('%s\\figure of soma', outdir)), title('soma')
+% figure, imagesc(S.bg(:, : )), saveas(gca, sprintf('%s\\figure of bg', outdir)), title('bg')
+% figure, imagesc(S.dend(:, : )), saveas(gca, sprintf('%s\\figure of dend', outdir)), title('dendrites')
 
 %% detailed plot
 ts = zscore(S.soma(1 : 200, : ), 0, 2);
@@ -496,6 +496,6 @@ axis off
 hold off;
 axis tight;
 set(gca,'LooseInset',get(gca,'TightInset'))
-saveas(gca, sprintf('%s\\stack_trace_1_100_soma.png', outdir))
+% saveas(gca, sprintf('%s\\stack_trace_1_100_soma.png', outdir))
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
