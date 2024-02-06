@@ -43,7 +43,7 @@ function varargout = scan_volume_1p(neur_vol, PSF_struct, neur_act, ...
 %  modified by YZ. last update: 5/29/2021.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Parse inputs
-yo = tiff_reader(sprintf('/ad/eng/research/eng_research_cisl/jalido/cm2/psfs/cm2v2_interpolated_stack-%d.tif',view_ind));
+yo = tiff_reader('H:\ccaragon\psfs\cm2v2\cm2v2_interpolated_stack-5.tif');
 yo = yo(:,:,1:100);
 for i = 1 : 100
     yo(:,:,i) = yo(:,:,i) / sum(yo(:,:,i), "all");

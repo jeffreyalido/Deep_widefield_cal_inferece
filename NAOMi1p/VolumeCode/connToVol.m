@@ -53,16 +53,20 @@ for j = 1:length(idxs)
   end
   numsamp = 2*norm(nodes(conn(i).start).pos'-nodes(conn(i).ends).pos');
   if(~isempty(TMPL) && ~isempty(TMPU))
-    spts = cscvn([nodes(TMPL).pos' nodes(conn(i).start).pos' nodes(conn(i).ends).pos' nodes(TMPU).pos']);
+    pos_matrix = [nodes(TMPL).pos' nodes(conn(i).start).pos' nodes(conn(i).ends).pos' nodes(TMPU).pos'];
+    spts = cscvn(pos_matrix);
     ves_loc = ceil(fnval(spts,linspace(spts.breaks(2),spts.breaks(3),numsamp))');
   elseif(~isempty(TMPL))
-    spts = cscvn([nodes(TMPL).pos' nodes(conn(i).start).pos' nodes(conn(i).ends).pos']);
+    pos_matrix = [nodes(TMPL).pos' nodes(conn(i).start).pos' nodes(conn(i).ends).pos'];
+    spts = cscvn(pos_matrix);
     ves_loc = ceil(fnval(spts,linspace(spts.breaks(2),spts.breaks(3),numsamp))');
   elseif(~isempty(TMPU))
-    spts = cscvn([nodes(conn(i).start).pos' nodes(conn(i).ends).pos' nodes(TMPU).pos']);
+    pos_matrix = [nodes(conn(i).start).pos' nodes(conn(i).ends).pos' nodes(TMPU).pos'];
+    spts = cscvn(pos_matrix);
     ves_loc = ceil(fnval(spts,linspace(spts.breaks(1),spts.breaks(2),numsamp))');
   else
-    spts = cscvn([nodes(conn(i).start).pos' nodes(conn(i).ends).pos']);
+    pos_matrix = [nodes(conn(i).start).pos' nodes(conn(i).ends).pos'];
+    spts = cscvn(pos_matrix);
     ves_loc = ceil(fnval(spts,linspace(spts.breaks(1),spts.breaks(2),numsamp))');
   end
   ves_loc = bsxfun(@max,ves_loc,[1 1 1]);

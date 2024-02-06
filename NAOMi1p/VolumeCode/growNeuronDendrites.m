@@ -342,7 +342,7 @@ for j = 1:N_neur
             dendSz = max(0,normrnd(1,dendVar))^2;
             pathW = dendSz*single(1-(1-1/sqrt(2))*[0;sum(abs(diff(abs(diff(path)))),2)/2;0]);
             finepathsIdx(sub2ind(fdims,path(:,1),path(:,2),path(:,3))) ...
-              = finepathsIdx(sub2ind(fdims,path(:,1),path(:,2),path(:,3)))+pathW; % 
+              = finepathsIdx(sub2ind(fdims,path(:,1),path(:,2),path(:,3)))+pathW; 
             fineIdxs =[fineIdxs; sub2ind(fdims,path(:,1),path(:,2),path(:,3))];
         end
     end
