@@ -47,7 +47,7 @@ if (~isfield(spike_opts,'sig'))||isempty(spike_opts.sig)
     spike_opts.sig = 1;                                                    % Default the standard-deviation of the normal r.v. used in the log-normal to one
 end
 if (~isfield(spike_opts,'dyn_type'))||isempty(spike_opts.dyn_type)         % Current options are 'AR1', 'AR2', 'single' or 'Ca_AR2'
-    spike_opts.dyn_type = 'Ca_DE';                                         % Default to a single-compartment Ca2+ model with double-exponential smoothing
+    spike_opts.dyn_type = 'AR1';                                         % Default to a single-compartment Ca2+ model with double-exponential smoothing
 end
 if (~isfield(spike_opts,'rate_dist'))||isempty(spike_opts.rate_dist)       % Current options are 'gamma' or 'uniform'
     spike_opts.rate_dist = 'gamma';                                        % Default to a gamma distribution of firing rates
@@ -65,7 +65,7 @@ if (~isfield(spike_opts,'N_bg'))||isempty(spike_opts.N_bg)
     spike_opts.N_bg = 0;                                                   % Default to only one background component
 end
 if (~isfield(spike_opts,'prot'))||isempty(spike_opts.prot)                 % Current options are 'GCaMP6', 'GCaMP3'
-    spike_opts.prot = 'GCaMP6';                                            % Default to 'GCaMP6' 
+    spike_opts.prot = 'GCaMP3';                                            % Default to 'GCaMP6' 
 end
 if ~isfield(spike_opts,'alpha')
     spike_opts.alpha = 1;                                                  % Default the Gamma distribution to an Exponential distribution (alpha=1)

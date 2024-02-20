@@ -16,7 +16,7 @@ RUSH_ai148d_config
 FOV_sz = 1000;% FOV, um // in image space
 nt = 200;  % frames
 fn = 10; % frame rate
-pavg = 0.5; %mW per mm^2
+pavg = 5; %mW per mm^2. for noisy measurements
 
 
 %% parser
@@ -34,10 +34,8 @@ vessel_mod.FOV_N = 2; % crop the whole FOV into patches for individual modulatio
 vessel_mod.max_dilate_amp = 10; % dilate amplitude
 vessel_mod.seed = 10; 
 %% output path
-output_dir = sprintf('H:/ccaragon/naomi/data/%s_res_%.2f_vol_%d_%d_NA_%.2f_Hz_%d_exp_%d_d_%dk_pw_%.2f', ...
-                                            mode, pixel_size, vol_params.vol_sz(1), vol_params.vol_sz(3), ...
-                                            psf_params.objNA,frate, exp_level,vol_params.neur_density / 1e3, ...
-                                            wdm_params.pavg)
+output_dir = sprintf('H:/ccaragon/naomi/data/%s', ...
+                                             spike_opts.rate)
 % % make sub folders
 buf = true;
 id = 1;
@@ -89,13 +87,13 @@ spike_opts = importdata(sprintf('%s\\firing_rate_%g_smod_flag_other\\spikes_opts
 neur_act = importdata(sprintf('%s\\firing_rate_%g_smod_flag_other\\S.mat', output_dir, spike_opts.rate));
 
 fprintf('Simulated temporal activity in %f seconds.\n', toc); 
-% %% plot traces
-% figure('position', [100, 100, 400, 800]), imagesc(neur_act.soma(:, : )),  title('soma'), colormap(othercolor('BuGn7'))
-% saveas(gcf, sprintf('%s\\soma_heat.jpg', output_dir)), close
-% figure('position', [100, 100, 400, 800]), imagesc(neur_act.bg(:, : )),  title('bg'), colormap(othercolor('BuGn7'))
-% saveas(gcf, sprintf('%s\\bg_heat.jpg', output_dir)), close
-% figure('position', [100, 100, 400, 800]), imagesc(neur_act.dend(:, : )), title('dendrites'), colormap(othercolor('BuGn7'))
-% saveas(gcf, sprintf('%s\\dend_heat.jpg', output_dir)), close
+%% plot traces
+figure('position', [100, 100, 400, 800]), imagesc(neur_act.soma(:, : )),  title('soma'), colormap(othercolor('BuGn7'))
+saveas(gcf, sprintf('%s\\soma_heat.jpg', output_dir)), close
+figure('position', [100, 100, 400, 800]), imagesc(neur_act.bg(:, : )),  title('bg'), colormap(othercolor('BuGn7'))
+saveas(gcf, sprintf('%s\\bg_heat.jpg', output_dir)), close
+figure('position', [100, 100, 400, 800]), imagesc(neur_act.dend(:, : )), title('dendrites'), colormap(othercolor('BuGn7'))
+saveas(gcf, sprintf('%s\\dend_heat.jpg', output_dir)), close
 
 %% peform imaging    
 % vol_out = importdata(sprintf('%s\\vol_out.mat', output_dir));
