@@ -1,0 +1,32 @@
+#!/bin/bash -l
+
+# echo "$idx" > output.txt
+
+# Specify the project name
+#$-P tianlabdl
+
+# Specify the time limit
+#$-l h_rt=8:00:00
+
+# Job Name
+# -N Rg_naomi
+
+# Send email at the end of the job
+#$-m n
+
+# Join error and output streams
+#$-j y
+
+# Ouput can be appended to the log file
+# -o Rg_naomi
+
+# Specify the memory requirements
+#$-l mem_per_core=16G
+
+# Specify number of cores
+#$-pe omp 9
+module load matlab/2018b
+
+#Run the program | mu
+matlab -nodisplay -r "addpath('/projectnb/tianlabdl/caragon/Deep_widefield_cal_inferece/NAOMi1p'); NAOMicode_scc($idx); exit;"
+

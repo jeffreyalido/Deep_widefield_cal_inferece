@@ -31,7 +31,7 @@ end
 % z_range = min(vol_params.vol_sz(3), 150); % we maximize the size of 1P for better background simulations
 % x_range = round(z_range / 4) - mod(round(z_range / 4), 4);
 psf_params.psf_sz = [84, 84, 100];
-yo = tiff_reader('H:\ccaragon\psfs\cm2v2\cm2v2_interpolated_stack-5.tif');
+yo = tiff_reader('/projectnb/tianlabdl/caragon/psfs/cm2v2/cm2v2_interpolated_stack-5.tif');
 yo = yo(:,:,1:100);
 for i = 1 : 100
     yo(:,:,i) = yo(:,:,i) / sum(yo(:,:,i), "all");
