@@ -14,26 +14,26 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
 
-currentFolder = pwd;                                                       % Get base folder
+currentFolder = pwd; % Get base folder
 
-if ~isfile([currentFolder,'/MEX/array_SubMod.mexa64'])||...
-           ~isfile([currentFolder,'/MEX/array_SubModTest.mexa64'])||...
-               ~isfile([currentFolder,'/MEX/array_SubSub.mexa64'])||...
-           ~isfile([currentFolder,'/MEX/array_SubSubTest.mexa64'])||...
-      ~isfile([currentFolder,'/MEX/dendrite_dijkstra_cpp.mexa64'])||...
-           ~isfile([currentFolder,'/MEX/dendrite_randomwalk_cpp.mexa64'])
+if ~isfile([currentFolder,'/NAOMi1p/MEX/array_SubMod.mexa64'])||...
+           ~isfile([currentFolder,'/NAOMi1p/MEX/array_SubModTest.mexa64'])||...
+               ~isfile([currentFolder,'/NAOMi1p/MEX/array_SubSub.mexa64'])||...
+           ~isfile([currentFolder,'/NAOMi1p/MEX/array_SubSubTest.mexa64'])||...
+      ~isfile([currentFolder,'/NAOMi1p/MEX/dendrite_dijkstra_cpp.mexa64'])||...
+           ~isfile([currentFolder,'/NAOMi1p/MEX/dendrite_randomwalk_cpp.mexa64'])
     mex_compiling;                                                         % Compile all MEX functions
 end
 
-addpath(genpath([currentFolder,'/MEX']));                                  % Add folder for MEX files
-addpath(genpath([currentFolder,'/MiscCode']));                             % Add folder for Misc files
-addpath(genpath([currentFolder,'/OpticsCode']));                           % Add folder for Optics simulation files
-addpath(genpath([currentFolder,'/TimeTraceCode']));                        % Add folder for Time-trace simulation files
-addpath(genpath([currentFolder,'/VolumeCode']));                           % Add folder for Neural volume simulation files
-addpath(genpath([currentFolder,'/ScanningCode']));                         % Add folder for Scanning simulation files
-addpath(genpath([currentFolder,'/AnalysisAndPlotting']));                  % Add folder for various analysis scripts
-addpath(genpath([currentFolder,'/ExternalPackages']));                     % Add folder for external packages
-addpath(genpath([currentFolder,'/config']));       
+addpath(genpath([currentFolder,'/NAOMi1p/MEX']));                                  % Add folder for MEX files
+addpath(genpath([currentFolder,'/NAOMi1p/MiscCode']));                             % Add folder for Misc files
+addpath(genpath([currentFolder,'/NAOMi1p/OpticsCode']));                           % Add folder for Optics simulation files
+addpath(genpath([currentFolder,'/NAOMi1p/TimeTraceCode']));                        % Add folder for Time-trace simulation files
+addpath(genpath([currentFolder,'/NAOMi1p/VolumeCode']));                           % Add folder for Neural volume simulation files
+addpath(genpath([currentFolder,'/NAOMi1p/ScanningCode']));                         % Add folder for Scanning simulation files
+addpath(genpath([currentFolder,'/NAOMi1p/AnalysisAndPlotting']));                  % Add folder for various analysis scripts
+addpath(genpath([currentFolder,'/NAOMi1p/ExternalPackages']));                     % Add folder for external packages
+addpath(genpath([currentFolder,'/NAOMi1p/config']));       
 cd(currentFolder);                                                         % Return to the main folder
 clear currentFolder ans
 

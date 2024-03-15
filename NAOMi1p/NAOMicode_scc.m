@@ -1,13 +1,10 @@
 function NAOMicode_scc(idx)
 
-clc, clear
-close all
-
 %% this file is used to generate NAOMi1p data
 %  last update: 5/29/2022. YZ
 
 pos_spikerates = [0.0001, 0.001, 0.01, 0.1, 1, 10, 100]
-
+idx
 %% add paths
 run('installNAOMi1p.m')
 
