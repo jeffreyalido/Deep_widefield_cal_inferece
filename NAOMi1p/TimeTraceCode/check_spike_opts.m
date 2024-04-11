@@ -38,40 +38,40 @@ function spike_opts = check_spike_opts(spike_opts)
 %% Run the checks
 
 if (~isfield(spike_opts,'K'))||isempty(spike_opts.K)   
-    spike_opts.K = 30;                                                     % Default to 30 neurons
+    spike_opts.K = 30; %T, dim is square milimeter                         % Default to 30 neurons
 end
 if (~isfield(spike_opts,'mu'))||isempty(spike_opts.mu)
-    spike_opts.mu = 0;                                                     % Default the mean of the normal r.v. used in the log-normal to zero
+    spike_opts.mu = 0; %T                                                  % Default the mean of the normal r.v. used in the log-normal to zero
 end
 if (~isfield(spike_opts,'sig'))||isempty(spike_opts.sig)
-    spike_opts.sig = 1;                                                    % Default the standard-deviation of the normal r.v. used in the log-normal to one
+    spike_opts.sig = 1;   %T                                                % Default the standard-deviation of the normal r.v. used in the log-normal to one
 end
 if (~isfield(spike_opts,'dyn_type'))||isempty(spike_opts.dyn_type)         % Current options are 'AR1', 'AR2', 'single' or 'Ca_AR2'
-    spike_opts.dyn_type = 'AR1';                                         % Default to a single-compartment Ca2+ model with double-exponential smoothing
+    spike_opts.dyn_type = 'AR1'; %T                                        % Default to a single-compartment Ca2+ model with double-exponential smoothing
 end
 if (~isfield(spike_opts,'rate_dist'))||isempty(spike_opts.rate_dist)       % Current options are 'gamma' or 'uniform'
-    spike_opts.rate_dist = 'gamma';                                        % Default to a gamma distribution of firing rates
+    spike_opts.rate_dist = 'gamma';   %T                                     % Default to a gamma distribution of firing rates
 end
 if (~isfield(spike_opts,'dt'))||isempty(spike_opts.dt)         
     spike_opts.dt = 1/30;                                                  % Default sampling rate is 30 Hz
 end
 if (~isfield(spike_opts,'nt'))||isempty(spike_opts.nt)         
-    spike_opts.nt = 1000;                                                  % Default number of time-steps to simulate is 1000
+    spike_opts.nt = 1000;                                                   % Default number of time-steps to simulate is 1000
 end
 if (~isfield(spike_opts,'rate'))||isempty(spike_opts.rate)                 
-    spike_opts.rate = 1e-3;                                                % Default inverse average of 1s between bursts (1000 1/100 s units) WAS: spike_opts.rate = 0.16;
+    spike_opts.rate = 1e-3;  %T                                              % Default inverse average of 1s between bursts (1000 1/100 s units) WAS: spike_opts.rate = 0.16;
 end
 if (~isfield(spike_opts,'N_bg'))||isempty(spike_opts.N_bg)         
-    spike_opts.N_bg = 0;                                                   % Default to only one background component
+    spike_opts.N_bg = 1;                                                   % Default to only one background component
 end
 if (~isfield(spike_opts,'prot'))||isempty(spike_opts.prot)                 % Current options are 'GCaMP6', 'GCaMP3'
-    spike_opts.prot = 'GCaMP3';                                            % Default to 'GCaMP6' 
+    spike_opts.prot = 'GCaMP6';                                            % Default to 'GCaMP6' 
 end
 if ~isfield(spike_opts,'alpha')
-    spike_opts.alpha = 1;                                                  % Default the Gamma distribution to an Exponential distribution (alpha=1)
+    spike_opts.alpha = 1;   %T                                               % Default the Gamma distribution to an Exponential distribution (alpha=1)
 end
 if ~isfield(spike_opts,'burst_mean')
-    spike_opts.burst_mean = 10;                                             % Default the mean of the Poisson distribution for number of spikes per burst to be 4
+    spike_opts.burst_mean = 10;   %T                                          % Default the mean of the Poisson distribution for number of spikes per burst to be 4
 end
 if ~isfield(spike_opts,'smod_flag')
     spike_opts.smod_flag = 'hawkes';                                       % Default simulation model is the Hawke's model

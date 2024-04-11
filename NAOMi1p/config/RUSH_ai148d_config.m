@@ -3,6 +3,7 @@
 vol_params.vol_sz    = [600,600,150];   % Volume size to sample (in microns)
 vol_params.vol_depth = 50;  % Set the depth of imaging (depth at the middle of the simulated volume)
 vol_params.neur_density = randi(2e4)+1e4;
+% vol_params.neur_density = 10; % JUST FOR DEBUGGING
 pixel_size = 2.4;           % pixel size of your system 
 vol_params.vres         = 1; % pixel size in tissue simulations
 neur_params.avg_rad     = 1*5.9;  % for slightly larger neuron
@@ -71,7 +72,7 @@ scan_params.verbose = 2; % details
 %% check those parameters
 vol_params   = check_vol_params(vol_params);                               % Check volume parameters
 vasc_params  = check_vasc_params([]);                                      % Make default set of vasculature parameters
-neur_params  = check_neur_params(neur_params);                                      % Make default set of neuron parameters
+neur_params  = check_neur_params(neur_params);                             % Make default set of neuron parameters
 dend_params  = check_dend_params([]);                                      % Make default set of dendrite parameters
 axon_params  = check_axon_params([]);                                      % Make default set of axon parameters
 bg_params    = check_bg_params([]);                                        % Make default set of background parameters

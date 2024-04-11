@@ -6,7 +6,7 @@
 #$-P tianlabdl
 
 # Specify the time limit
-#$-l h_rt=8:00:00
+#$-l h_rt=3:00:00
 
 # Job Name
 # -N Rg_naomi
@@ -25,7 +25,7 @@
 
 # Specify number of cores
 #$-pe omp 9
-module load matlab/2018b
+module load matlab/2021b
 
 #Run the program | mu
 matlab -nodisplay -r "addpath('/projectnb/tianlabdl/caragon/Deep_widefield_cal_inferece/NAOMi1p'); NAOMicode_scc($idx); exit;"
